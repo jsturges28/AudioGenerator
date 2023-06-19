@@ -47,8 +47,6 @@ def train_unet(x_train, learning_rate, batch_size, epochs):
     return unet
 
 
-
-
 if __name__ == '__main__':
     x_train = load_fsdd(SPECTROGRAMS_PATH)
 

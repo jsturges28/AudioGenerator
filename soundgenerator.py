@@ -1,7 +1,7 @@
 from preprocessing import MinMaxNormalizer
 import librosa
 
-class Soundgenerator:
+class SoundGenerator:
     '''
     Generate audio from mel spectrograms
     '''
@@ -27,7 +27,7 @@ class Soundgenerator:
             denorm_spectrogram = self._min_max_normalizer.denormalize(new_spectrogram, min_max_value["min"], min_max_value["max"])
             # inverse mel function
             spec = librosa.feature.inverse.mel_to_stft(denorm_spectrogram)
-            signal = librosa.feature.griffinlim(spec, hop_length=self.hop_length)
+            signal = librosa.griffinlim(spec, hop_length=self.hop_length)
             signals.append(signal)
 
         return signals

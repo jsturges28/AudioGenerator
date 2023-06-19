@@ -86,16 +86,24 @@ class Saver:
         self.min_max_values_save_dir = min_max_values_save_dir
 
     def save_feature(self, feature, filepath): # save the spectrograms as .npy extension
-        filename = os.path.split(filepath)[1] + '.npy'
-        save_path = os.path.join(self.feature_save_dir, filename)
+        save_path = self._generate_save_path(filepath)
         os.makedirs(os.path.dirname(save_path), exist_ok=True)  # Create the directory if it doesn't exist
         np.save(save_path, feature) 
         return save_path
     
     def save_min_max_values(self, min_max_values): # pickle the min_max_values
         save_path = os.path.join(self.min_max_values_save_dir, "min_max_values.pkl")
-        with open(save_path, 'wb') as f:
-            pickle.dump(min_max_values, f)
+        self._save(min_max_values, save_path)
+
+    @staticmethod
+    def _save(data, save_path):
+        with open(save_path, "wb") as f:
+            pickle.dump(data, f)
+
+    def _generate_save_path(self, file_path):
+        file_name = os.path.split(file_path)[1]
+        save_path = os.path.join(self.feature_save_dir, file_name + ".npy")
+        return save_path
 
 '''
 Put it all together with the PreprocessingPipeline class
@@ -162,8 +170,8 @@ if __name__ == "__main__":
     SAMPLE_RATE = 22050
     MONO = True
 
-    SPECTROGRAMS_SAVE_DIR = "./mel_spectrograms"
-    MIN_MAX_VALUES_SAVE_DIR = "."
+    SPECTROGRAMS_SAVE_DIR = os.path.abspath("C:/Users/stur8980/Documents/GitHub/AudioGenerator/mel_spectrograms/")
+    MIN_MAX_VALUES_SAVE_DIR = os.path.abspath("C:/Users/stur8980/Documents/GitHub/AudioGenerator/")
     FILES_DIR = "./recordings"
 
     # instantiate the objects
