@@ -1,3 +1,7 @@
+"""
+VAE model for audio generation
+"""
+
 import tensorflow as tf
 from tensorflow import keras
 from keras import Model
